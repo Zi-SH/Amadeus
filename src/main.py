@@ -1,7 +1,7 @@
-import json, sys, os, logging
+import sys, logging
 from discord.ext import commands
-from AmadeusKurisu import config, filter
-from AmadeusKurisu.discord.modules import utils
+from AmadeusKurisu import config
+from AmadeusKurisu.discord import utils
 
 # Amadeus System 0.01
 
@@ -28,6 +28,7 @@ client.remove_command("help")
 
 ## Constant variables
 loadedModules = []
+logger = utils.get_logger()
 
 ## Command Functions
 @client.command(pass_context=True)
@@ -57,12 +58,12 @@ async def on_message(message):
 @client.event
 async def on_command_error(context,error):
     if not isinstance(error, commands.errors.MissingRequiredArgument):
-        logging.error(error)
+        logger.info(error)
 
 @client.event
 async def on_ready():
-    logging.info(f"{client.user.name} has connected successfully")
-    logging.info("------")
+    logger.info(f"{client.user.name} has connected successfully")
+    logger.info("------")
 
     modules = utils.get_modules()
     modulePath = utils.get_module_path()
@@ -70,14 +71,14 @@ async def on_ready():
     for module in modules:
         if await utils.load_module(client, module):
             loadedModules.append(module)
-    try:
-        await utils.load_module(client, modulePath + ".help")
-        loadedModules.append(modulePath + ".help")
-    except (AttributeError, ImportError) as e:
-        logging.critical("Help module failed to load.")
-        sys.exit("Fatal Error: Unable to load help module.")
+    #try:
+    #    await utils.load_module(client, modulePath + ".help")
+    #    loadedModules.append(modulePath + ".help")
+    #except (AttributeError, ImportError) as e:
+    #    logging.critical("Help module failed to load.")
+    #    sys.exit("Fatal Error: Unable to load help module.")
 
-    logging.info("------")
+    logger.info("------")
 
 client.run(config.TOKEN)
 
