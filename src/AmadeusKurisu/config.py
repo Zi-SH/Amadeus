@@ -1,10 +1,17 @@
 import json
 
-# Load Discord config
-with open("bot.json", "r") as f:
-    bot = json.load(f)
+""" Retrieve configs for the client as well as any module configurations"""
 
-# Load module settings
-# TODO: INPUT VALIDATION
-with open("modules.json", "r") as f:
-    modules = json.load(f)
+with open("bot.json", "r") as file:
+    botConfig = json.load(file)
+
+with open("modules.json", "r") as file:
+    moduleConfig = json.load(file)
+
+
+PREFIX      = botConfig["prefix"]
+DESCRIPTION = botConfig["description"]
+ADMINUSERS  = botConfig["adminusers"]
+TOKEN       = botConfig["token"]
+
+MODULEPATH  = moduleConfig["path"]
