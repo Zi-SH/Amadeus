@@ -6,7 +6,7 @@ from AmadeusKurisu import config
 
 def generate_logger():
     logger = logging.getLogger("AmaKuri")
-    logger.setLevel(logging.WARN)
+    logger.setLevel(logging.INFO)
 
     logger.addHandler(logging.StreamHandler())
 
@@ -14,10 +14,13 @@ def generate_logger():
 
 def populate_modules():
     moduleDirectory = config.MODULEPATH
-    modules = listdir(moduleDirectory)
+    # List comprehension to load each file found into a loop, grab it if it's a py file, then strip the extension
+    modules = [module.replace(".py", "") for module in listdir(moduleDirectory) if ".py" in module]
 
     # Format for later usage loading modules
-    moduleDirectory = moduleDirectory.replace("./src/").replace("/", ".")
+    moduleDirectory = moduleDirectory.\
+        replace("./", "").replace("/", ".")
+
 
     return moduleDirectory, modules
 
@@ -25,7 +28,7 @@ _logger = generate_logger()
 _moduleDirectory, _modules = populate_modules()
 
 
-def _get_logger():
+def get_logger():
     return _logger
 
 def get_modules():
@@ -39,7 +42,7 @@ async def send_message(context, message):
         await context.send(message)
 
 async def load_module(client, module, context=None):
-    logger = _get_logger()
+    logger = get_logger()
 
     if context and context != "LOAD" and context not in config.bot["admin"]:
         logger.warning("Unauthorized user {} in {} attempted to call {} at {}.".format(
@@ -74,7 +77,7 @@ async def load_module(client, module, context=None):
         return False
 
 async def unload_module(client, module, context=None):
-    logger = _get_logger()
+    logger = get_logger()
 
     if context and context != "UNLOAD" and context not in config.bot["admin"]:
         logger.warning("Unauthorized user {} in {} attempted to call {} at {}.".format(
