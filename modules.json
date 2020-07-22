@@ -1,2 +1,1 @@
-{"path": "./src/AmadeusKurisu/discord/modules",
-"startup": ["modules.rolesAdmin", "modules.rolesUser"]}
+{"path": "./src/AmadeusKurisu/discord/modules"}
