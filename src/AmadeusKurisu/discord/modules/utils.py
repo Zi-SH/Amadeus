@@ -13,7 +13,7 @@ def generate_logger():
     return logger
 
 def populate_modules():
-    moduleDirectory = config.modules["path"]
+    moduleDirectory = config.MODULEPATH
     modules = listdir(moduleDirectory)
 
     # Format for later usage loading modules
@@ -30,6 +30,9 @@ def _get_logger():
 
 def get_modules():
     return _modules
+
+def get_module_path():
+    return _moduleDirectory
 
 async def send_message(context, message):
     if context:
@@ -91,5 +94,5 @@ async def unload_module(client, module, context=None):
         logger.warning(f"Failed to unload module {module}.")
         logger.warning(f"{module}:{e}")
         if context and context != "UNLOAD":
-            await send_message(context, f"Module {module} failed to load.")
+            await send_message(context, f"Module {module} failed to unload.")
         return False
