@@ -65,6 +65,7 @@ async def on_ready():
     logger.info(f"{client.user.name} has connected successfully")
     logger.info("------")
 
+    # TODO: on_ready() processes every time the bot reconnects. Modify module loading to handle modules already being loaded.
     modules = utils.get_modules()
     modulePath = utils.get_module_path()
 
