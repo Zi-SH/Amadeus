@@ -1,13 +1,11 @@
 import json
 from os import mkdir, path
 
+""" Classes for manipulation command filters, which control whether or not a command can be used in a room. """
 
 # Constants
 guildConfigPath = "./guilds"
-guildSkelFile = "./guilds/guildSkel.json"
 
-""" Classes for manipulation command filters, which control whether or not a command    """
-""" can be used in a room.                                                              """
 
 def generate_new_guild_filter(guildID):
     if not path.isdir(guildConfigPath):
